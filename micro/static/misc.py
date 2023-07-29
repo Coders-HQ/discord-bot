@@ -9,6 +9,14 @@ from classes.colored_embed import CEmbed
 def get_current_guild(
     obj: Interaction | Message | TextChannel | Member | Context,
 ) -> Guild:
+    """
+    Returns a discord.Guild object from a given entity
+    Parameters:
+        obj: The object to extract guild from
+    Returns:
+        discord.Guild: The guild object
+    """
+
     try:
         return obj.guild
     except AttributeError:
@@ -17,7 +25,8 @@ def get_current_guild(
 
 def get_extra_channel(
     channel_type: str, obj: Interaction | Message | TextChannel | Member | Context
-) -> TextChannel:
+) -> TextChannel:  
+
     guild = get_current_guild(obj)
     if not guild:
         raise TypeError(f"The given '{repr(obj)}' cannot extract guild property")
