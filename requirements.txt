@@ -1,7 +1,5 @@
-discord.py
 python-dotenv
+discord.py
 fastapi[all]
-pandas
-openpyxl
-psutil
-psycopg2
+PyGithub
+asyncpg

@@ -42,10 +42,6 @@
             "TensorFlow tutorials - https://www.tensorflow.org/tutorials",
             "TensorFlow Libraries & extensions - https://www.tensorflow.org/resources/libraries-extensions",
             "discord.py doc - https://discordpy.readthedocs.io/en/stable/"
-        ],
-        "Keywords": [
-            "python",
-            "py"
         ]
     },
     "Java": {
@@ -81,9 +77,6 @@
         "Frameworks & Libraries": [
             "Java Swing Tutorial - https://www.javatpoint.com/java-swing",
             "Java AWT Toolkit - https://www.javatpoint.com/java-awt-toolkit"
-        ],
-        "Keywords": [
-            "java"
         ]
     },
     "JavaScript": {
@@ -136,10 +129,6 @@
             "Learn Redux | Codecademy - https://www.codecademy.com/learn/learn-redux",
             "Bootstrap Docs - https://getbootstrap.com/docs/5.1/getting-started/introduction/",
             "discord.js Guide - https://discordjs.guide/#before-you-begin"
-        ],
-        "Keywords": [
-            "javascript",
-            "js"
         ]
     },
     "C": {
@@ -165,9 +154,6 @@
             "Pointers in C / C++ [Full Course] - YouTube - https://youtu.be/zuegQmMdy8M",
             "How to manage memory with malloc, calloc, realloc, and free in C - YouTube - https://youtu.be/lQP4X3odvHE",
             "Function Pointers in C - YouTube - https://youtu.be/BRsv3ZXoHto"
-        ],
-        "Keywords": [
-            "c"
         ]
     },
     "C++": {
@@ -175,7 +161,6 @@
         "Documentation": [
             "Tutorials - C++ Tutorials - https://www.cplusplus.com/doc/",
             "C++ reference - cppreference.com - https://en.cppreference.com/w/cpp",
-            "",
             "DevDocs C++ documentation - https://devdocs.io/cpp/",
             "Microsoft C/C++ Documentation | Microsoft Docs - https://docs.microsoft.com/en-us/cpp/?view=msvc-170"
         ],
@@ -193,10 +178,6 @@
             "Free C++ Tutorial - Intermediate Level C++ | Udemy - https://www.udemy.com/course/intermediate-level-c/",
             "Pointers in C / C++ [Full Course] - YouTube - https://youtu.be/zuegQmMdy8M",
             "C++ Tutorial : Advanced Functions - YouTube - https://youtu.be/TGOXttOoI0U"
-        ],
-        "Keywords": [
-            "c++",
-            "cpp"
         ]
     },
     "C#": {
@@ -225,9 +206,6 @@
         ],
         "Frameworks & Libraries": [
             "Free C# Tutorial - CRUD C#.Net with Entity Framework | Udemy - https://www.udemy.com/course/crud-cnet-with-entity-framework/"
-        ],
-        "Keywords": [
-            "c#"
         ]
     },
     "HTML": {
@@ -259,9 +237,6 @@
             "Learn A-Frame (VR) | Codecademy - https://www.codecademy.com/learn/learn-a-frame",
             "Introduction A-Frame - https://aframe.io/docs/1.3.0/introduction/",
             "Bootstrap Docs - https://getbootstrap.com/docs/5.1/getting-started/introduction/"
-        ],
-        "Keywords": [
-            "html"
         ]
     },
     "CSS": {
@@ -299,9 +274,6 @@
             "Introduction to Tailwind CSS - https://www.geeksforgeeks.org/introduction-to-tailwind-css/",
             "Bootstrap Docs - https://getbootstrap.com/docs/5.1/getting-started/introduction/",
             "Front End Development Libraries Certification | freeCodeCamp.org - https://www.freecodecamp.org/learn/front-end-development-libraries/"
-        ],
-        "Keywords": [
-            "css"
         ]
     }
 }
