@@ -1,0 +1,7 @@
+discord.py
+python-dotenv
+fastapi[all]
+pandas
+openpyxl
+psutil
+psycopg2
