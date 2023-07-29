@@ -1,0 +1,1 @@
+psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c 'CREATE TABLE muted_members(id VARCHAR(20) PRIMARY KEY);'

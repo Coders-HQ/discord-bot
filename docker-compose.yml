@@ -3,12 +3,43 @@ version: "3.9"
 services:
   bot:
     build: .
-    command: python main.py
-    container_name: bot
-    volumes:
-      - ./micro:/app
+    command: python micro
+    container_name: micro
+    depends_on:
+      - postgres
     ports:
-      - "8030:8000"
+      - "8000:8000"
     env_file:
       - .env
 
+  postgres:
+    image: postgres:14.1
+    restart: unless-stopped
+    container_name: micro_postgres
+    environment:
+      - POSTGRES_USER=${DBUSER}
+      - POSTGRES_PASSWORD=${DBPASS}
+      - POSTGRES_DB=${DBDATABASE}
+    volumes:
+      - ./docker_postgres_init.sh:/docker-entrypoint-initdb.d/docker_postgres_init.sh
+      - local_micro_postgres_data:/var/lib/postgresql/data:Z
+      - local_micro_postgres_data_backups:/backups:z
+    env_file:
+      - .env
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_MAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${DBPASS}
+      - PGADMIN_CONFIG_CONSOLE_LOG_LEVEL=40
+      - PGADMIN_LISTEN_PORT=5050
+    ports:
+      - "5050:5050"
+    links:
+      - "postgres:pgsql-server"
+
+volumes:
+  local_micro_postgres_data: {}
+  local_micro_postgres_data_backups: {}
