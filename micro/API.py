@@ -22,6 +22,11 @@ app = FastAPI()
 
 
 def get_embed(event: Event):
+    """
+    Creates an embed that'll be showed each time a new event appears
+    Returns: CEmbed object
+    """
+    
     date = datetime.strptime(event.date_time, "%Y-%m-%d")
     return CEmbed.from_dict(
         {
@@ -70,8 +75,14 @@ def get_embed(event: Event):
 
 @app.post("/bot/event")
 async def publish_event(event: Event):
+    """
+    Endpoint for publishing events to the discord server (Using webhooks)
+    Parameters:
+        event: Event object | Contains the details about the event
+    """
+
     WB_URL = os.getenv("WEBHOOK_URL")
 
     async with aiohttp.ClientSession() as session:
-        webhook = Webhook.from_url(WB_URL, session=session)
-        await webhook.send(embed=get_embed(event))
+        webhook = Webhook.from_url(WB_URL, session=session) 
+        await webhook.send(embed=get_embed(event)) # Send the embed to the webhook channel
