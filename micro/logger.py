@@ -6,6 +6,8 @@ import os
 
 
 def logger():
+    """Returns an instance for a logger"""
+
     log_file = LOGS_DIR / "bot_logs.log"
 
     if not LOGS_DIR.exists():
