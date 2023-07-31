@@ -587,7 +587,7 @@ class Moderation(commands.Cog):
         log.add_field(name="Reason", value=reason if reason else "N/A", inline=False)
 
         try:
-            log_channel = get_extra_channel("log", obj=interaction)
+            log_channel = get_extra_channel("log", obj=interaction, bot=self.bot)
         except ValueError as e:
             fail_embed = CEmbed(description=f"Log channel not set up correctly")
             return await interaction.channel.send(embed=fail_embed)

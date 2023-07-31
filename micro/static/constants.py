@@ -14,9 +14,9 @@ Have a look around and spend some time at each channel to get familiar with the 
 If you are still unsure then ask on <#947073932719190086> we will help guide you to a task that you will enjoy the most. Have fun!
 """
 
-MEMBERCOUNT_CHANNEL_NAME = "membercount"
-LOG_CHANNEL_NAME = "micro-logs"
-MODERATION_CHANNEL_NAME = "moderation"
+MEMBERCOUNT_CHANNEL = 0
+LOG_CHANNEL = 0
+MODERATION_CHANNEL = 0
 BOT_COLOR = 0x00AFB1
 
 USER_COMMANDS = {
