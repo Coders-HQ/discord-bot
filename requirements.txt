@@ -3,3 +3,4 @@ discord.py
 fastapi[all]
 PyGithub
 asyncpg
+pandas
