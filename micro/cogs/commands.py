@@ -177,14 +177,26 @@ class Commands(commands.Cog):
             admin_role = discord.utils.get(interaction.guild.roles, name="Admin")
             mod_role = discord.utils.get(interaction.guild.roles, name="Moderator")
 
-            if admin_role in author.roles or mod_role in author.roles:
-                cmds = constants.ALL_COMMANDS
-            else:
-                cmds = constants.USER_COMMANDS
+            cmds = []
+            cogs = set()
+            
+            for cog in self.bot.cogs:
+                cogs.add(cog)
+                for cmd in self.bot.get_cog(cog).walk_app_commands():
+                    cmds.append((cog, cmd.name, cmd.description))
 
-            embed = CEmbed(title="List of bot commands")
-            for cmd, desc in cmds.items():
-                embed.add_field(name=f"/{cmd}", value=desc, inline=False)
+            description = ""
+            for cog in cogs:
+                if cog == "Listeners":
+                    continue
+                if (cog == "Admin" or cog == "Moderation") and (admin_role not in author.roles or mod_role not in author.roles):
+                    continue
+                description += f"## {cog}\n"
+                for cmd in cmds:
+                    if cmd[0] == cog:
+                        description += f"`/{cmd[1]}` - {cmd[2]}\n"
+                description += "\n"
+            embed = CEmbed(title="_List of bot commands_", description=description) 
 
             await interaction.response.send_message(embed=embed)
 

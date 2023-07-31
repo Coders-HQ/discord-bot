@@ -13,7 +13,7 @@ from static.misc import get_extra_channel, get_current_guild
 import static.constants as constants
 
 
-class Events(commands.Cog):
+class Listeners(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
@@ -281,4 +281,4 @@ class Events(commands.Cog):
 
 
 async def setup(bot):
-    await bot.add_cog(Events(bot))  # await this
+    await bot.add_cog(Listeners(bot))  # await this
