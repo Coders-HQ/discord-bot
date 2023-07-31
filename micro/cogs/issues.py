@@ -2,7 +2,9 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
-from classes import GitHub, IssueListView, IssueModal
+from classes import GitHub
+from views import IssueListView, IssueModal
+
 from static import constants
 from classes.colored_embed import CEmbed
 

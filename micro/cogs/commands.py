@@ -5,12 +5,8 @@ from discord.ext import commands
 from discord.utils import format_dt
 from discord.app_commands import Choice
 
-from classes import (
-    Resources, 
-    ResourcesView, 
-    RoleView, 
-    CEmbed
-)
+from classes import Resources, CEmbed
+from views import ResourcesView, RoleView
 
 from static.misc import get_current_guild
 

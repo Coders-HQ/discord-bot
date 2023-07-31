@@ -4,5 +4,3 @@ from .github import GitHub
 from .question_query import QuestionQuery
 from .resources import Resources
 from .colored_embed import CEmbed
-
-from .views import *

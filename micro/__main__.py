@@ -4,7 +4,7 @@ load_dotenv()
 import discord
 from discord.ext import commands
 
-from classes import (
+from views import (
     ModerationView, 
     ResourcesView, 
     RoleView, 
