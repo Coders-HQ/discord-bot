@@ -1,4 +1,5 @@
 import discord
+import requests
 from discord import app_commands
 from discord.ext import commands
 from discord.utils import format_dt
@@ -200,8 +201,9 @@ class Commands(commands.Cog):
     @app_commands.command(name="ping", description=constants.USER_COMMANDS["ping"])
     async def ping(self, interaction: discord.Interaction):
         try:
+            api_latency = requests.get("http://localhost:8000").elapsed.total_seconds() / 1000
             embed = CEmbed(
-                description=f"Pongin' with **{round(self.bot.latency* 1000)}ms**!"
+                description=f"# Pong!\n```diff\nBot latency: \n{'+' if self.bot.latency < 300 else '-'} {self.bot.latency * 1000:.0f}ms\nAPI Latecy: \n{'+' if api_latency < 300 else '-'} {api_latency * 1000:.0f}ms\n```"
             )
             await interaction.response.send_message(embed=embed)
 
