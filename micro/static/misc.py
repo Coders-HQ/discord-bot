@@ -3,7 +3,7 @@ from discord import Guild, Interaction, Message, TextChannel, Member, Embed
 from discord.ext.commands import Context
 
 from static.constants import MODERATION_CHANNEL_NAME, LOG_CHANNEL_NAME
-from classes.colored_embed import CEmbed
+from classes import CEmbed
 
 
 def get_current_guild(

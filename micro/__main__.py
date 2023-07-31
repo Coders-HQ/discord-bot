@@ -4,8 +4,13 @@ load_dotenv()
 import discord
 from discord.ext import commands
 
-from classes.views import ModerationView, ResourcesView, RoleView, IssueListView
-from classes.database import Database
+from classes import (
+    ModerationView, 
+    ResourcesView, 
+    RoleView, 
+    IssueListView
+)
+from classes import Database
 from logger import logger
 from static.paths import COGS_DIR
 from API import app

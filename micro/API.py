@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from datetime import datetime
 
-from classes.colored_embed import CEmbed
+from classes import CEmbed
 
 import os, aiohttp
 

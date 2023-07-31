@@ -2,10 +2,13 @@ import discord
 from discord.utils import utcnow
 from discord.ext import commands
 
-from classes.database import Database
-from classes.github import GitHub
-from classes.colored_embed import CEmbed
-from classes.views import ModerationView
+from classes import (
+    Database, 
+    GitHub, 
+    CEmbed, 
+    ModerationView
+)
+
 from static.misc import get_extra_channel, get_current_guild
 import static.constants as constants
 

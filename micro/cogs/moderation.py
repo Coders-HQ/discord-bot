@@ -2,8 +2,7 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
-from classes.database import Database
-from classes.colored_embed import CEmbed
+from classes import Database, CEmbed
 from static.misc import get_extra_channel
 import static.constants as constants
 

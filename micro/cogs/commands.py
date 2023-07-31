@@ -4,11 +4,16 @@ from discord.ext import commands
 from discord.utils import format_dt
 from discord.app_commands import Choice
 
-from classes.resources import Resources
-from classes.views import ResourcesView, RoleView
-from classes.colored_embed import CEmbed
-import static.constants as constants
+from classes import (
+    Resources, 
+    ResourcesView, 
+    RoleView, 
+    CEmbed
+)
+
 from static.misc import get_current_guild
+
+import static.constants as constants
 
 
 class Commands(commands.Cog):
