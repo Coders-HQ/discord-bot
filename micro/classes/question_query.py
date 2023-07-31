@@ -20,9 +20,9 @@ class QuestionQuery:
         title, msg = self.data['Title']['who'], self.data['Answer']['who']
         if command in self.data['Answer'].keys():
             title, msg = self.data['Title'][command], self.data['Answer'][command]
-        return self._toEmbed(title, msg)
+        return self._toembed(title, msg)
 
-    def _toEmbed(self, title, msg):
+    def _toembed(self, title, msg):
         try:
             return embeds.Embed.from_dict(
                 {

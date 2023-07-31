@@ -6,7 +6,7 @@ class BadWords():
         self.logger = logger
         self.insults = get_insult_list()
 
-    def isItInsult(self, msg_lst):
+    def is_it_insult(self, msg_lst):
         try:
             msg = ' '.join(msg_lst)
 
