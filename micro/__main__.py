@@ -65,7 +65,7 @@ class DiscordBot(commands.Bot):
 
         return msg
     
-    @tasks.loop(seconds=60)
+    @tasks.loop(minutes=10)
     async def update_next_event(self):
         try:
             events_channel = await self.fetch_channel(EVENTS_CHANNEL)
