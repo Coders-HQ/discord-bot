@@ -34,8 +34,6 @@ class DiscordBot(commands.Bot):
         # Setup logger
         self.logger = logger
 
-        # Setup channels
-
         super().__init__(*args, activity=activity, intents=intents, **kwargs)
 
     async def setup_hook(self):
@@ -66,35 +64,10 @@ class DiscordBot(commands.Bot):
             print(msg)
 
         return msg
-    
-    @tasks.loop(minutes=10)
-    async def update(self):
-        # Update upcoming event channel
-        if not self.events_channel.last_message:
-            await self.next_event_channel.edit(name="No events yet...")
-            return
-        last_msg = self.events_channel.last_message
-        day_value = last_msg.embeds[0].fields[1].value
-        time_value = last_msg.embeds[0].fields[2].value
-        date = datetime.datetime.strptime(f"{day_value} {time_value}", "%Y-%m-%d %H:%M")
-        # if day and time are upcoming, set the channel name to the event. otherwise "No upcoming events"   
-        if date > datetime.datetime.now():
-            await self.next_event_channel.edit(name=last_msg.embeds[0].title)
-        else:
-            await self.next_event_channel.edit(name="No upcoming events...")
-
-        # Update member count channel
-        await self.membercount_ch.edit(name=f"Member Count: {len(self.users)}")
-
 
     async def on_ready(self):
-        self.membercount_ch = await self.fetch_channel(MEMBERCOUNT_CHANNEL)
-        self.events_channel = await self.fetch_channel(EVENTS_CHANNEL)
-        self.next_event_channel = await self.fetch_channel(NEXT_EVENT_CHANNEL)
-        await self.update()
-        self.update.start()
-        await self.membercount_ch.edit(name=f"Member Count: {len(self.users)}")
-
+        members_ch = self.get_channel(MEMBERCOUNT_CHANNEL)
+        await members_ch.edit(name=f"Member Count: {len(self.users)}")
 
 # Init logger
 logger = logger()

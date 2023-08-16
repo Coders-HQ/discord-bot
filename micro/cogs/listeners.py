@@ -1,4 +1,5 @@
 import discord
+import datetime
 from discord.utils import utcnow
 from discord.ext import commands
 
@@ -77,7 +78,8 @@ class Listeners(commands.Cog):
             self.bot.logger.info(
                 f"New User: {member} ({member.id}) | Welcome Message sent, logged"
             )
-
+            members_ch = self.bot.get_channel(constants.MEMBERCOUNT_CHANNEL)
+            await members_ch.edit(name=f"Member Count: {guild.member_count}")
         except Exception as e:
             self.bot.logger.error(
                 f"Error in running on_member_join event for {member}: {e}"
@@ -200,6 +202,16 @@ class Listeners(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
         try:
+            if message.channel.id == constants.EVENTS_CHANNEL:
+                if message.webhook_id:
+                    embed = message.embeds[0]
+                    next_event_channel = await self.bot.fetch_channel(constants.NEXT_EVENT_CHANNEL)
+                    date = datetime.datetime.strptime(f"{embed.fields[1].value} {embed.fields[2].value}", "%Y-%m-%d %H:%M")
+                    if date >= datetime.datetime.now():
+                        await next_event_channel.edit(name=embed.title)
+                    else:
+                        await next_event_channel.edit(name="No upcoming events")
+                    return
             # ignore it if it's from the bot
             if message.author == self.bot.user:
                 return
