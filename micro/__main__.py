@@ -65,7 +65,7 @@ class DiscordBot(commands.Bot):
 
         return msg
     
-    @tasks.loop(seconds=2)
+    @tasks.loop(seconds=60)
     async def update_next_event(self):
         try:
             events_channel = await self.fetch_channel(EVENTS_CHANNEL)
@@ -77,13 +77,12 @@ class DiscordBot(commands.Bot):
             await next_event_channel.edit(name="No upcoming events...")
             return
         last_msg = events_channel.last_message
-        day = datetime.datetime.strptime(last_msg.embeds[0].fields[1].value, "%Y-%m-%d") # 2nd field is the date
-        time = datetime.datetime.strptime(last_msg.embeds[0].fields[2].value, "%H:%M") # 3rd field is the time
-        print(day)
-        print(time)
-        # if day and time are upcoming, set the channel name to the event. otherwise "No upcoming events"
-        if day > datetime.datetime.now() or (day == datetime.datetime.now() and time > datetime.datetime.now()):
-            await next_event_channel.edit(name="Next Event: " + last_msg.embeds[0].title)
+        day_value = last_msg.embeds[0].fields[1].value
+        time_value = last_msg.embeds[0].fields[2].value
+        date = datetime.datetime.strptime(f"{day_value} {time_value}", "%Y-%m-%d %H:%M")
+        # if day and time are upcoming, set the channel name to the event. otherwise "No upcoming events"   
+        if date > datetime.datetime.now():
+            await next_event_channel.edit(name=last_msg.embeds[0].title)
         else:
             await next_event_channel.edit(name="No upcoming events...")
 
