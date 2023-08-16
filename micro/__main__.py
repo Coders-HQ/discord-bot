@@ -14,7 +14,7 @@ from views import (
 from classes import Database
 from logger import logger
 from static.paths import COGS_DIR
-from static.constants import EVENTS_CHANNEL, NEXT_EVENT_CHANNEL
+from static.constants import EVENTS_CHANNEL, NEXT_EVENT_CHANNEL, MEMBERCOUNT_CHANNEL
 from API import app
 
 from logging import Logger
@@ -33,7 +33,9 @@ class DiscordBot(commands.Bot):
 
         # Setup logger
         self.logger = logger
-        
+
+        # Setup channels
+
         super().__init__(*args, activity=activity, intents=intents, **kwargs)
 
     async def setup_hook(self):
@@ -66,29 +68,32 @@ class DiscordBot(commands.Bot):
         return msg
     
     @tasks.loop(minutes=10)
-    async def update_next_event(self):
-        try:
-            events_channel = await self.fetch_channel(EVENTS_CHANNEL)
-            next_event_channel = await self.fetch_channel(NEXT_EVENT_CHANNEL)
-        except discord.errors.NotFound:
-            self.logger.error("Couldn't find the events channel, ignoring exception")
+    async def update(self):
+        # Update upcoming event channel
+        if not self.events_channel.last_message:
+            await self.next_event_channel.edit(name="No upcoming events...")
             return
-        if not events_channel.last_message:
-            await next_event_channel.edit(name="No upcoming events...")
-            return
-        last_msg = events_channel.last_message
+        last_msg = self.events_channel.last_message
         day_value = last_msg.embeds[0].fields[1].value
         time_value = last_msg.embeds[0].fields[2].value
         date = datetime.datetime.strptime(f"{day_value} {time_value}", "%Y-%m-%d %H:%M")
         # if day and time are upcoming, set the channel name to the event. otherwise "No upcoming events"   
         if date > datetime.datetime.now():
-            await next_event_channel.edit(name=last_msg.embeds[0].title)
+            await self.next_event_channel.edit(name=last_msg.embeds[0].title)
         else:
-            await next_event_channel.edit(name="No upcoming events...")
+            await self.next_event_channel.edit(name="No upcoming events...")
+
+        # Update member count channel
+        await self.membercount_ch.edit(name=f"Member Count: {len(self.users)}")
 
 
     async def on_ready(self):
-        bot.update_next_event.start()
+        self.membercount_ch = await self.fetch_channel(MEMBERCOUNT_CHANNEL)
+        self.events_channel = await self.fetch_channel(EVENTS_CHANNEL)
+        self.next_event_channel = await self.fetch_channel(NEXT_EVENT_CHANNEL)
+        await self.update()
+        self.update.start()
+        await self.membercount_ch.edit(name=f"Member Count: {len(self.users)}")
 
 
 # Init logger
