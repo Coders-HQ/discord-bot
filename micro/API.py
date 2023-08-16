@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from datetime import datetime
 
 from classes import CEmbed
+from static.constants import EVENTS_ROLE_ID
 
 import os, aiohttp
 
@@ -16,6 +17,7 @@ class Event(BaseModel):
     event_link: str
     event_location: str
     seats: int
+    mentions: list[int]
 
 
 app = FastAPI()
@@ -75,5 +77,6 @@ async def publish_event(event: Event):
     WB_URL = os.getenv("WEBHOOK_URL")
 
     async with aiohttp.ClientSession() as session:
+        mentions = " ".join([f"<@&{id}>" for id in event.mentions])
         webhook = Webhook.from_url(WB_URL, session=session)
-        await webhook.send(embed=get_embed(event))
+        await webhook.send(content=f"<@&{EVENTS_ROLE_ID}>{mentions}", embed=get_embed(event))

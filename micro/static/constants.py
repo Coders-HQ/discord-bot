@@ -19,6 +19,7 @@ LOG_CHANNEL = 0
 MODERATION_CHANNEL = 0
 EVENTS_CHANNEL = 1141375227771760700 # The channel where the event webhooks gets sent to
 NEXT_EVENT_CHANNEL = 1141374906056052766 # Locked voice channel which just shows the next events
+EVENTS_ROLE_ID = 1141438382740873339
 BOT_COLOR = 0x00AFB1
 
 USER_COMMANDS = {

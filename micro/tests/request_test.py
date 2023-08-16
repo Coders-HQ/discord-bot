@@ -8,6 +8,7 @@ body = {
   "short_description": "Salesforce seminars series provided by EK koders(Emirates Airlines)",
   "event_link": "",
   "event_location" : "Coders HQ, Emirates Towers, Dubai",
-  "seats" : 15
+  "seats" : 15,
+  "mentions": [1141438457772789762]
 }
 resp = requests.post('http://127.0.0.1:8000/bot/event',json=body)
