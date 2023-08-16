@@ -71,7 +71,7 @@ class DiscordBot(commands.Bot):
     async def update(self):
         # Update upcoming event channel
         if not self.events_channel.last_message:
-            await self.next_event_channel.edit(name="No upcoming events...")
+            await self.next_event_channel.edit(name="No events yet...")
             return
         last_msg = self.events_channel.last_message
         day_value = last_msg.embeds[0].fields[1].value
