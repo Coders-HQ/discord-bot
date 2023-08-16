@@ -3,7 +3,7 @@ import requests
 body = {
   "title" : "EKoders - Sales Force",
   "image": "https://codershq0.blob.core.windows.net/media/event/image/e-koders-sales-force_sIJIj6B.jpg",
-  "date_time": "2022-04-23T18:25:43.511Z",
+  "date_time": "2022-04-23 12:00",
   "duration": 3,
   "short_description": "Salesforce seminars series provided by EK koders(Emirates Airlines)",
   "event_link": "",

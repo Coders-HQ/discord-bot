@@ -22,7 +22,9 @@ app = FastAPI()
 
 
 def get_embed(event: Event):
-    date = datetime.strptime(event.date_time, "%Y-%m-%d")
+    date_time = event.date_time.split()
+    date = datetime.strptime(date_time[0], "%Y-%m-%d")
+    time = datetime.strptime(date_time[1], "%H:%M")
     return CEmbed.from_dict(
         {
             "title": event.title,
@@ -40,7 +42,7 @@ def get_embed(event: Event):
                 },
                 {
                     "name": "Time",
-                    "value": date.strftime("%H-%M"),
+                    "value": time.strftime("%H:%M"),
                     "inline": True
                 },
                 {

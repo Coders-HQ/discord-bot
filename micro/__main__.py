@@ -2,7 +2,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 import discord
-from discord.ext import commands
+import datetime
+from discord.ext import commands, tasks
 
 from views import (
     ModerationView, 
@@ -13,6 +14,7 @@ from views import (
 from classes import Database
 from logger import logger
 from static.paths import COGS_DIR
+from static.constants import EVENTS_CHANNEL, NEXT_EVENT_CHANNEL
 from API import app
 
 from logging import Logger
@@ -31,7 +33,7 @@ class DiscordBot(commands.Bot):
 
         # Setup logger
         self.logger = logger
-
+        
         super().__init__(*args, activity=activity, intents=intents, **kwargs)
 
     async def setup_hook(self):
@@ -62,6 +64,32 @@ class DiscordBot(commands.Bot):
             print(msg)
 
         return msg
+    
+    @tasks.loop(seconds=2)
+    async def update_next_event(self):
+        try:
+            events_channel = await self.fetch_channel(EVENTS_CHANNEL)
+            next_event_channel = await self.fetch_channel(NEXT_EVENT_CHANNEL)
+        except discord.errors.NotFound:
+            self.logger.error("Couldn't find the events channel, ignoring exception")
+            return
+        if not events_channel.last_message:
+            await next_event_channel.edit(name="No upcoming events...")
+            return
+        last_msg = events_channel.last_message
+        day = datetime.datetime.strptime(last_msg.embeds[0].fields[1].value, "%Y-%m-%d") # 2nd field is the date
+        time = datetime.datetime.strptime(last_msg.embeds[0].fields[2].value, "%H:%M") # 3rd field is the time
+        print(day)
+        print(time)
+        # if day and time are upcoming, set the channel name to the event. otherwise "No upcoming events"
+        if day > datetime.datetime.now() or (day == datetime.datetime.now() and time > datetime.datetime.now()):
+            await next_event_channel.edit(name="Next Event: " + last_msg.embeds[0].title)
+        else:
+            await next_event_channel.edit(name="No upcoming events...")
+
+
+    async def on_ready(self):
+        bot.update_next_event.start()
 
 
 # Init logger
