@@ -78,14 +78,12 @@ class GitHub:
         return issue
 
     def list_issues(
-        self, paginate: bool
+        self
     ) -> PaginatedList.PaginatedList | list[list] | None:
         """Returns the list of issues of the repo, or the paginated list of issue"""
         if not self.repo:
             return
         issues = self.repo.get_issues()
-        if paginate:
-            return self.prepare_pagination(issues)
         return issues
 
     def create_issue(

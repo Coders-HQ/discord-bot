@@ -2,7 +2,7 @@ import discord
 from discord.ui import View, button, Button
 from discord import Interaction, Embed
 
-from classes import GitHub, CEmbed
+from classes import GitHub, CEmbed, Paginator
 
 class IssueListView(View):
     def __init__(self, pages: list[Embed] = None):
