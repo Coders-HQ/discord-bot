@@ -5,11 +5,10 @@ from discord import Interaction, Embed
 from classes import GitHub, CEmbed, Paginator
 
 class IssueListView(View):
-    def __init__(self, pages: list[Embed] = None):
+    def __init__(self, issues: list[str] = None, page_size: int = 5):
         self.gh = GitHub()
 
-        self.pages = pages
-        self.current_page = 0
+        self.paginator = Paginator(issues, page_size)
 
         super().__init__(timeout=None)
 
@@ -18,8 +17,6 @@ class IssueListView(View):
     )
     async def prev_page(self, interaction: Interaction, button: Button):
         req_user = interaction.message.interaction.user
-        if not self.pages:
-            self.setup(interaction)
 
         if interaction.user != req_user:
             return await interaction.response.send_message(
@@ -27,16 +24,15 @@ class IssueListView(View):
                 ephemeral=True,
             )
 
-        if not self.current_page < 0:
-            self.prev_page.disabled = False
-            self.next_page.disabled = False
-            self.current_page -= 1
-
-            if self.current_page == 0:
-                self.prev_page.disabled = True
-
-            current_page = self.pages[self.current_page]
-            await interaction.response.edit_message(embed=current_page, view=self)
+        current_page = self.paginator.prev_page()
+        if current_page is None:
+            return
+        emb = CEmbed(title="Issues", description=current_page)
+        emb.set_footer(text=f"Page {self.paginator.current_page} - {self.paginator.total_pages}")
+        return await interaction.response.send_message(
+            embed=emb,
+            view=self
+        )
 
     @button(
         label="Next Page",
@@ -45,32 +41,23 @@ class IssueListView(View):
     )
     async def next_page(self, interaction: Interaction, button: Button):
         req_user = interaction.message.interaction.user
-        if not self.pages:
-            self.setup(interaction)
-
-        if self.get_total_page(interaction) == 1:
-            self.next_page.disabled = True
-            await interaction.message.edit(view=self)
-            return await interaction.response.send_message(
-                "There is only one page", ephemeral=True
-            )
 
         if interaction.user != req_user:
             return await interaction.response.send_message(
                 "Only the owner of the message can control the pagination menu!",
                 ephemeral=True,
             )
-
-        if not self.current_page + 1 >= len(self.pages):
-            self.next_page.disabled = False
-            self.prev_page.disabled = False
-            self.current_page += 1
-
-            if self.current_page == len(self.pages) - 1:
-                self.next_page.disabled = True
-
-            current_page = self.pages[self.current_page]
-            await interaction.response.edit_message(embed=current_page, view=self)
+        
+        current_page = self.paginator.next_page()
+        if current_page is None:
+            return
+        
+        emb = CEmbed(title="Issues", description=current_page)
+        emb.set_footer(text=f"Page {self.paginator.current_page} - {self.paginator.total_pages}")
+        return await interaction.response.send_message(
+            embed=emb,
+            view=self
+        )
 
     @button(
         label="Exit",
@@ -91,35 +78,3 @@ class IssueListView(View):
         except:
             embed = CEmbed(description="Unable to delete the interaction")
             await interaction.response.send_message(embed=embed, ephemeral=True)
-
-    def setup(self, interaction: Interaction):
-        issue_list = self.gh.list_issues(paginate=True)
-        self.pages = self.make_pages(issue_list)
-        self.current_page = self.get_current_page(interaction) - 1  # For indexing
-        self.total_pages = self.get_total_page(interaction)
-
-    def make_pages(self, paginated: list[list]) -> list[Embed]:
-        pages = []
-        for idx, page in enumerate(paginated, start=1):
-            embed = CEmbed(title="Issues")
-            embed.set_footer(text=f"Page {idx} - {len(paginated)}")
-            for issue in page:
-                embed.add_field(
-                    name=f"{issue.number}. {issue.title}",
-                    value=f"{issue.html_url}",
-                    inline=False,
-                )
-
-            pages.append(embed)
-
-        return pages
-
-    def get_current_page(self, interaction: Interaction) -> int:
-        page_text = interaction.message.embeds[0].footer.text
-        current_page = page_text.split(" - ")[0].split(" ")[-1]
-        return int(current_page)
-
-    def get_total_page(self, interaction: Interaction) -> int:
-        page_text = interaction.message.embeds[0].footer.text
-        total_page = page_text.split(" - ")[-1]
-        return int(total_page)

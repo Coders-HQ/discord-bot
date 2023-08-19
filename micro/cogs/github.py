@@ -33,25 +33,19 @@ class GitHub(commands.Cog):
                 )
                 return await interaction.followup.send(embed=empty_embed)
 
-            pages = []
+            issues_str = []
 
-            for idx, page in enumerate(issues, start=1):
-                embed = CEmbed(title="Issues")
-                embed.set_footer(text=f"Page {idx} - {len(issues)}")
-                for issue in page:
-                    embed.add_field(
-                        name=f"{issue.number}. {issue.title}",
-                        value=f"{issue.html_url}",
-                        inline=False,
-                    )
+            for issue in issues:
+                issues_str.append(f"## - [#{issue.number} {issue.title}]({issue.html_url})")
 
-                pages.append(embed)
+            view = IssueListView(issues=issues, page_size=5)
 
-            view = IssueListView(pages=pages)
+            curr_page = view.paginator.get_page()
+            
+            embed = CEmbed(title="Issues", description=curr_page)
+            embed.set_footer(text=f"Page {view.paginator.curr_page + 1} - {view.paginator.total_pages}")
 
-            current_page = 0
-
-            await interaction.followup.send(embed=pages[current_page], view=view)
+            await interaction.followup.send(embed=embed, view=view)
             self.bot.logger.info(
                 f"Successfully executed /issue list command for {interaction.user}"
             )
