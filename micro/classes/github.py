@@ -1,4 +1,4 @@
-import os, requests, discord
+import os, requests
 
 from typing import Iterable
 from math import ceil
