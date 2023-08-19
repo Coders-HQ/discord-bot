@@ -8,7 +8,6 @@ from classes import (
     GitHub, 
     CEmbed
 )
-from views import ModerationView
 
 from static.misc import get_extra_channel, get_current_guild
 import static.constants as constants
