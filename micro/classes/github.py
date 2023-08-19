@@ -2,7 +2,7 @@ import os, requests
 
 from typing import Iterable
 from math import ceil
-from github import Github, Issue, PaginatedList
+from github import Github, Issue
 from github.GithubException import UnknownObjectException, BadCredentialsException
 
 
@@ -79,11 +79,11 @@ class GitHub:
 
     def list_issues(
         self
-    ) -> PaginatedList.PaginatedList | list[list] | None:
+    ) -> list[Issue.Issue] | None:
         """Returns the list of issues of the repo, or the paginated list of issue"""
         if not self.repo:
             return
-        issues = self.repo.get_issues()
+        issues = list(self.repo.get_issues())
         return issues
 
     def create_issue(

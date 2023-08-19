@@ -22,7 +22,7 @@ class GitHub(commands.Cog):
         await self.refresh_env()
         await interaction.response.defer()
         try:
-            issues = self.gh.list_issues(paginate=True)
+            issues = self.gh.list_issues()
             if issues is None:
                 embed = await self.unable_to_connect()
                 return await interaction.followup.send(embed=embed)
@@ -36,14 +36,14 @@ class GitHub(commands.Cog):
             issues_str = []
 
             for issue in issues:
-                issues_str.append(f"## - [#{issue.number} {issue.title}]({issue.html_url})")
+                issues_str.append(f"### - [#{issue.number}]({issue.html_url}) {issue.title}")
 
-            view = IssueListView(issues=issues, page_size=5)
+            view = IssueListView(issues=issues_str, page_size=5)
 
             curr_page = view.paginator.get_page()
             
-            embed = CEmbed(title="Issues", description=curr_page)
-            embed.set_footer(text=f"Page {view.paginator.curr_page + 1} - {view.paginator.total_pages}")
+            embed = CEmbed(title="Issues", description='\n'.join(curr_page))
+            embed.set_footer(text=f"Page {view.paginator.curr_page} - {view.paginator.total_pages}")
 
             await interaction.followup.send(embed=embed, view=view)
             self.bot.logger.info(
