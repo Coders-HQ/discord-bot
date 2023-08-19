@@ -1,4 +1,3 @@
-import discord
 from discord import Guild, Interaction, Message, TextChannel, Member, Embed
 from discord.ext.commands import Context, Bot
 
