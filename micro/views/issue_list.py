@@ -1,6 +1,6 @@
 import discord
-from discord.ui import View, button, Button, select, Select, Modal, TextInput
-from discord import Interaction, Embed, Message
+from discord.ui import View, button, Button
+from discord import Interaction, Embed
 
 from classes import GitHub, CEmbed
 
