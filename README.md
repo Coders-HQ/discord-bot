@@ -1,4 +1,7 @@
 <div align="center">
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
     <a href='https://ai.gov.ae/codershq/'>
         <picture>
             <source media="(prefers-color-scheme: dark)" srcset="https://www.arsal.xyz/CHQAssets/CHQLogo.png">
@@ -232,6 +235,13 @@ docker volume rm <name_of_volume>
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/nihaalnz"><img src="https://avatars.githubusercontent.com/u/110490083?v=4?s=100" width="100px;" alt="Nihaal Nz"/><br /><sub><b>Nihaal Nz</b></sub></a><br /><a href="https://github.com/Coders-HQ/discord-bot/commits?author=nihaalnz" title="Code">💻</a> <a href="#maintenance-nihaalnz" title="Maintenance">🚧</a></td>
+    </tr>
+  </tbody>
+</table>
 
 <!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
@@ -254,3 +264,15 @@ If you wish to contribute, create a fork and put up a PR explaining the changes 
 <div align="right">
     <a href='#toc'>Back to top ↥</a>
 </div>
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
