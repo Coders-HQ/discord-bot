@@ -8,6 +8,16 @@
   "commitConvention": "angular",
   "contributors": [
     {
+      "login": "nihaalnz",
+      "name": "Nihaal Nz",
+      "avatar_url": "https://avatars.githubusercontent.com/u/110490083?v=4",
+      "profile": "https://github.com/nihaalnz",
+      "contributions": [
+        "code",
+        "maintenance"
+      ]
+    },
+    {
       "login": "arsxl",
       "name": "Muhammad Arsalan Nawazish",
       "avatar_url": "https://avatars.githubusercontent.com/u/69077626?v=4",

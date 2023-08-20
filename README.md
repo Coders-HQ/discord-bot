@@ -239,6 +239,7 @@ docker volume rm <name_of_volume>
   <tbody>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/arsxl"><img src="https://avatars.githubusercontent.com/u/69077626?v=4?s=100" width="100px;" alt="Muhammad Arsalan Nawazish"/><br /><sub><b>Muhammad Arsalan Nawazish</b></sub></a><br /><a href="https://github.com/Coders-HQ/discord-bot/commits?author=arsxl" title="Code">💻</a> <a href="#maintenance-arsxl" title="Maintenance">🚧</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/nihaalnz"><img src="https://avatars.githubusercontent.com/u/110490083?v=4?s=100" width="100px;" alt="Nihaal Nz"/><br /><sub><b>Nihaal Nz</b></sub></a><br /><a href="https://github.com/Coders-HQ/discord-bot/commits?author=nihaalnz" title="Code">💻</a> <a href="#maintenance-nihaalnz" title="Maintenance">🚧</a></td>
     </tr>
   </tbody>
 </table>
