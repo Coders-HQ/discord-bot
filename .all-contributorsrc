@@ -1,0 +1,27 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitType": "docs",
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "nihaalnz",
+      "name": "Nihaal Nz",
+      "avatar_url": "https://avatars.githubusercontent.com/u/110490083?v=4",
+      "profile": "https://github.com/nihaalnz",
+      "contributions": [
+        "code",
+        "maintenance"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true,
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "projectName": "discord-bot",
+  "projectOwner": "Coders-HQ"
+}
