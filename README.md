@@ -1,7 +1,4 @@
 <div align="center">
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
     <a href='https://ai.gov.ae/codershq/'>
         <picture>
             <source media="(prefers-color-scheme: dark)" srcset="https://www.arsal.xyz/CHQAssets/CHQLogo.png">
@@ -15,7 +12,9 @@
     <a href="https://dsc.gg/codershq">
         <img height="19" src="https://discordapp.com/api/guilds/910100464496963584/widget.png">
     </a>
-
+    <a>
+        <img src="https://img.shields.io/github/all-contributors/Coders-HQ/discord-bot?color=ee8449&style=flat-square)">
+    </a>
 </div>
 
 <h2 id="toc">📝 Table of Contents</h2>
