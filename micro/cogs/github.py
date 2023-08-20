@@ -33,6 +33,7 @@ class GitHub(commands.Cog):
                 )
                 return await interaction.followup.send(embed=empty_embed)
 
+            # Format the list of issues into strings for the description
             issues_str = []
 
             for issue in issues:
@@ -40,6 +41,7 @@ class GitHub(commands.Cog):
 
             view = IssueListView(issues=issues_str, page_size=5)
 
+            # Get the current page from the paginator
             curr_page = view.paginator.get_page()
             
             embed = CEmbed(title="Issues", description='\n'.join(curr_page))

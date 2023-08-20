@@ -6,11 +6,13 @@ from classes import GitHub, CEmbed, Paginator
 
 class IssueListView(View):
     def __init__(self, issues: list[str] = None, page_size: int = 5):
+        # page_size is the amount of issues per page
+
         self.gh = GitHub()
+
         if issues is not None: 
             self.paginator = Paginator(issues, page_size)
         else: self.paginator = None
-
         self.page_size = page_size
 
         super().__init__(timeout=None)
@@ -22,6 +24,7 @@ class IssueListView(View):
         req_user = interaction.message.interaction.user
 
         if self.paginator == None:
+            # For persistent view
             self.paginator = self.get_paginator(interaction)
 
         if interaction.user != req_user:
@@ -30,6 +33,7 @@ class IssueListView(View):
                 ephemeral=True,
             )
         
+        # Update disabled/enabled buttons
         if self.paginator.curr_page == 2: self.prev_page.disabled = True
         if self.paginator.curr_page == self.paginator.total_pages: self.next_page.disabled = True
 
@@ -76,6 +80,7 @@ class IssueListView(View):
         req_user = interaction.message.interaction.user
 
         if self.paginator == None:
+            # For persistent view
             self.paginator = self.get_paginator(interaction)
 
         if interaction.user != req_user:
@@ -84,6 +89,7 @@ class IssueListView(View):
                 ephemeral=True,
             )
         
+        # Update disabled/enabled buttons
         if self.paginator.curr_page == 1: self.prev_page.disabled = False
         if self.paginator.curr_page == self.paginator.total_pages - 1: self.next_page.disabled = True
 
@@ -98,7 +104,11 @@ class IssueListView(View):
             view=self
         )
 
-    def get_paginator(self, interaction):
+    def get_paginator(self, interaction: Interaction) -> Paginator:
+        """
+        !USED FOR PERSISTENT VIEW!
+        Returns a Paginator object based on the current page of the interaction message
+        """
         issues = []
         for issue in self.gh.list_issues():
             issues.append(f"### - [#{issue.number}]({issue.html_url}) {issue.title}")

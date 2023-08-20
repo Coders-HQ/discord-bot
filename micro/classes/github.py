@@ -83,7 +83,7 @@ class GitHub:
         """Returns the list of issues of the repo, or the paginated list of issue"""
         if not self.repo:
             return
-        issues = list(self.repo.get_issues())
+        issues = list(self.repo.get_issues()) # Convert a PaginatedList into a normal list of the issues
         return issues
 
     def create_issue(
