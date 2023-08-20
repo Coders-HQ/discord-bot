@@ -28,6 +28,7 @@
         <li><a href="#run-direct">Running the files directly</a></li>
         <li><a href="#run-docker">Getting up and running locally with Docker</a></li>
     </ul>
+    <li><a href="#contributors">Contributors</a></li>
 </ol>
 
 <h2 id="intro">🤖 Introduction</h2>
@@ -226,6 +227,21 @@ docker volume rm <name_of_volume>
     <a href='#toc'>Back to top ↥</a>
 </div>
 
+## 🖥️ Contributors
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+<div align="right">
+    <a href='#toc'>Back to top ↥</a>
+</div>
+
 <h2>✨ Want to contribute?</h2>
 <p>
 If you wish to contribute, create a fork and put up a PR explaining the changes you have made. You can also get more information or help by joining the discord server (linked at the top).
@@ -234,3 +250,7 @@ If you wish to contribute, create a fork and put up a PR explaining the changes 
 <br>
 
 <h6>*This same file will be used to supply environment variables to the docker container as well</h6>
+
+<div align="right">
+    <a href='#toc'>Back to top ↥</a>
+</div>
