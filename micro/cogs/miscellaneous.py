@@ -1,20 +1,21 @@
 import discord
+import requests
 from discord import app_commands
 from discord.ext import commands
 from discord.utils import format_dt
 from discord.app_commands import Choice
 
-from classes.resources import Resources
-from classes.views import ResourcesView, RoleView
-from classes.colored_embed import CEmbed
-import static.constants as constants
+from classes import CEmbed
+from views import RoleView
+
 from static.misc import get_current_guild
 
+import static.constants as constants
 
-class Commands(commands.Cog):
+
+class Miscellaneous(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.resources = Resources()
 
     @app_commands.command(name="chq", description=constants.USER_COMMANDS["chq"])
     @app_commands.describe(option="Words that describe CHQ")
@@ -77,73 +78,6 @@ class Commands(commands.Cog):
 
             self.bot.logger.error(f"Error sending a reply | {e}")
 
-    @app_commands.command(
-        name="resources", description=constants.USER_COMMANDS["resources"]
-    )
-    @app_commands.describe(topic="Programming language that you want the resource for")
-    async def show_resources(self, interaction: discord.Interaction, topic: str):
-        await interaction.response.defer()
-        try:
-            self.resources.reload_resource()
-
-            req_user = interaction.user
-            lang = topic
-            pages = []
-
-            data = self.resources.get_details(lang)
-            paginated = self.resources.prepare_pagination(data)
-
-            for idx, page in enumerate(paginated, start=1):
-                embed = CEmbed(title=lang)
-                embed.set_footer(text=f"Page {idx} - {len(paginated)}")
-
-                for d in page:
-                    for category, contents in d.items():
-                        text = ""
-                        if category == "Description":
-                            text = contents
-                            embed.add_field(name=category, value=text, inline=False)
-                        else:
-                            for content in contents:
-                                title = content.split(" - ")
-                                if len(title) > 1:
-                                    link = title[-1]
-                                    name = " - ".join(title[:-1])
-                                    text += f"[{name}]({link})\n"
-                                else:
-                                    link = content
-                                    text += f"{link}\n"
-                            embed.add_field(name=category, value=text, inline=False)
-
-                pages.append(embed)
-
-                self.bot.logger.info(
-                    f"Resource for {lang} was sent as requested by <@{req_user}>"
-                )
-
-            view = ResourcesView(pages, lang)
-
-            await interaction.followup.send(embed=pages[view.current_page], view=view)
-
-        except Exception as e:
-            embed_error = CEmbed(
-                description="Error in running /resources, try again later"
-            )
-            await interaction.followup.send(embed=embed_error)
-
-            self.bot.logger.error(f"Error in running /resources command: {e}")
-
-    @show_resources.autocomplete("topic")
-    async def topic_autocomplete(self, interaction: discord.Interaction, current: str):
-        self.resources.reload_resource()
-
-        topics = self.resources.get_all_langs()
-        return [
-            Choice(name=lang, value=lang)
-            for lang in topics
-            if current.lower() in lang.lower()
-        ]
-
     @app_commands.command(name="age", description=constants.USER_COMMANDS["age"])
     @app_commands.describe(member="Member you want to see the age of, if any")
     @app_commands.guild_only()
@@ -175,14 +109,26 @@ class Commands(commands.Cog):
             admin_role = discord.utils.get(interaction.guild.roles, name="Admin")
             mod_role = discord.utils.get(interaction.guild.roles, name="Moderator")
 
-            if admin_role in author.roles or mod_role in author.roles:
-                cmds = constants.ALL_COMMANDS
-            else:
-                cmds = constants.USER_COMMANDS
+            cmds = []
+            cogs = set()
+            
+            for cog in self.bot.cogs:
+                cogs.add(cog)
+                for cmd in self.bot.get_cog(cog).walk_app_commands():
+                    cmds.append((cog, cmd.name, cmd.description))
 
-            embed = CEmbed(title="List of bot commands")
-            for cmd, desc in cmds.items():
-                embed.add_field(name=f"/{cmd}", value=desc, inline=False)
+            description = ""
+            for cog in cogs:
+                if cog == "Listeners":
+                    continue
+                if (cog == "Admin" or cog == "Moderation") and (admin_role not in author.roles or mod_role not in author.roles):
+                    continue
+                description += f"## {cog}\n"
+                for cmd in cmds:
+                    if cmd[0] == cog:
+                        description += f"`/{cmd[1]}` - {cmd[2]}\n"
+                description += "\n"
+            embed = CEmbed(title="_List of bot commands_", description=description) 
 
             await interaction.response.send_message(embed=embed)
 
@@ -195,8 +141,9 @@ class Commands(commands.Cog):
     @app_commands.command(name="ping", description=constants.USER_COMMANDS["ping"])
     async def ping(self, interaction: discord.Interaction):
         try:
+            api_latency = requests.get("http://localhost:8000").elapsed.total_seconds() / 1000
             embed = CEmbed(
-                description=f"Pongin' with **{round(self.bot.latency* 1000)}ms**!"
+                description=f"# Pong!\n```diff\nBot latency: \n{'+' if self.bot.latency < 300 else '-'} {self.bot.latency * 1000:.0f}ms\nAPI Latecy: \n{'+' if api_latency < 300 else '-'} {api_latency * 1000:.0f}ms\n```"
             )
             await interaction.response.send_message(embed=embed)
 
@@ -254,4 +201,4 @@ class Commands(commands.Cog):
 
 
 async def setup(bot):  # async
-    await bot.add_cog(Commands(bot))
+    await bot.add_cog(Miscellaneous(bot))

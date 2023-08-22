@@ -14,9 +14,12 @@ Have a look around and spend some time at each channel to get familiar with the 
 If you are still unsure then ask on <#947073932719190086> we will help guide you to a task that you will enjoy the most. Have fun!
 """
 
-MEMBERCOUNT_CHANNEL_NAME = "membercount"
-LOG_CHANNEL_NAME = "micro-logs"
-MODERATION_CHANNEL_NAME = "moderation"
+MEMBERCOUNT_CHANNEL = 1141423539124175019
+LOG_CHANNEL = 0
+MODERATION_CHANNEL = 0
+EVENTS_CHANNEL = 1141375227771760700 # The channel where the event webhooks gets sent to
+NEXT_EVENT_CHANNEL = 1141374906056052766 # Locked voice channel which just shows the next events
+EVENTS_ROLE_ID = 1141438382740873339
 BOT_COLOR = 0x00AFB1
 
 USER_COMMANDS = {

@@ -1,9 +1,8 @@
-import discord
 from discord import Guild, Interaction, Message, TextChannel, Member, Embed
-from discord.ext.commands import Context
+from discord.ext.commands import Context, Bot
 
-from static.constants import MODERATION_CHANNEL_NAME, LOG_CHANNEL_NAME
-from classes.colored_embed import CEmbed
+from static.constants import MODERATION_CHANNEL, LOG_CHANNEL
+from classes import CEmbed
 
 
 def get_current_guild(
@@ -16,21 +15,21 @@ def get_current_guild(
 
 
 def get_extra_channel(
-    channel_type: str, obj: Interaction | Message | TextChannel | Member | Context
+    channel_type: str, obj: Interaction | Message | TextChannel | Member | Context, bot: Bot
 ) -> TextChannel:
     guild = get_current_guild(obj)
     if not guild:
         raise TypeError(f"The given '{repr(obj)}' cannot extract guild property")
     channels = {
-        "mod": MODERATION_CHANNEL_NAME,
-        "log": LOG_CHANNEL_NAME,
+        "mod": MODERATION_CHANNEL,
+        "log": LOG_CHANNEL,
     }
 
     req_channel = channels.get(channel_type)
     if not req_channel:
         raise ValueError(f"There is no requirement channel named '{channel_type}'")
 
-    channel_obj = discord.utils.get(guild.channels, name=req_channel)
+    channel_obj = bot.get_channel(req_channel) # Get channel by ID
     if not channel_obj:
         raise ValueError(
             f"There are no existing channels in the server named '{req_channel}'"

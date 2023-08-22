@@ -2,12 +2,19 @@ from dotenv import load_dotenv
 load_dotenv()
 
 import discord
-from discord.ext import commands
+import datetime
+from discord.ext import commands, tasks
 
-from classes.views import ModerationView, ResourcesView, RoleView, IssueListView
-from classes.database import Database
+from views import (
+    ModerationView, 
+    ResourcesView, 
+    RoleView, 
+    IssueListView
+)
+from classes import Database
 from logger import logger
 from static.paths import COGS_DIR
+from static.constants import EVENTS_CHANNEL, NEXT_EVENT_CHANNEL, MEMBERCOUNT_CHANNEL
 from API import app
 
 from logging import Logger
@@ -58,6 +65,9 @@ class DiscordBot(commands.Bot):
 
         return msg
 
+    async def on_ready(self):
+        members_ch = self.get_channel(MEMBERCOUNT_CHANNEL)
+        await members_ch.edit(name=f"Member Count: {len(self.users)}")
 
 # Init logger
 logger = logger()

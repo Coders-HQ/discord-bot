@@ -2,23 +2,18 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
-from classes.github import GitHub
-from classes.views import IssueListView, IssueModal
+from classes import GitHub as GitHubBackend
+from views import IssueListView, IssueModal
+
 from static import constants
 from classes.colored_embed import CEmbed
 
 from dotenv import load_dotenv
 
-@app_commands.guild_only()
-@app_commands.default_permissions(manage_messages=True)
-class GHIssues(
-    commands.GroupCog,
-    name="issue",
-    description="Command group for managing GitHub issues",
-):
+class GitHub(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.gh = GitHub()
+        self.gh = GitHubBackend()
 
         super().__init__()
 
@@ -27,7 +22,7 @@ class GHIssues(
         await self.refresh_env()
         await interaction.response.defer()
         try:
-            issues = self.gh.list_issues(paginate=True)
+            issues = self.gh.list_issues()
             if issues is None:
                 embed = await self.unable_to_connect()
                 return await interaction.followup.send(embed=embed)
@@ -38,25 +33,21 @@ class GHIssues(
                 )
                 return await interaction.followup.send(embed=empty_embed)
 
-            pages = []
+            # Format the list of issues into strings for the description
+            issues_str = []
 
-            for idx, page in enumerate(issues, start=1):
-                embed = CEmbed(title="Issues")
-                embed.set_footer(text=f"Page {idx} - {len(issues)}")
-                for issue in page:
-                    embed.add_field(
-                        name=f"{issue.number}. {issue.title}",
-                        value=f"{issue.html_url}",
-                        inline=False,
-                    )
+            for issue in issues:
+                issues_str.append(f"### - [#{issue.number}]({issue.html_url}) {issue.title}")
 
-                pages.append(embed)
+            view = IssueListView(issues=issues_str, page_size=5)
 
-            view = IssueListView(pages=pages)
+            # Get the current page from the paginator
+            curr_page = view.paginator.get_page()
+            
+            embed = CEmbed(title="Issues", description='\n'.join(curr_page))
+            embed.set_footer(text=f"Page {view.paginator.curr_page} - {view.paginator.total_pages}")
 
-            current_page = 0
-
-            await interaction.followup.send(embed=pages[current_page], view=view)
+            await interaction.followup.send(embed=embed, view=view)
             self.bot.logger.info(
                 f"Successfully executed /issue list command for {interaction.user}"
             )
@@ -210,7 +201,7 @@ class GHIssues(
 
     async def refresh_env(self):
         load_dotenv(override=True)
-        self.gh = GitHub()
+        self.gh = GitHubBackend()
 
 async def setup(bot: commands.Bot):  # async
-    await bot.add_cog(GHIssues(bot))
+    await bot.add_cog(GitHub(bot))
